@@ -7,7 +7,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      input: '',
+      carInput: '',
+      houseInput: '',
       cars: [],
       houses: []
     };
@@ -17,16 +18,29 @@ class App extends Component {
   //   this.setState({isOn: !this.state.isOn})
   // }
 
-  inputUpdate = (event) => {
-    this.setState({input: event.target.value})
+  updateCarInput = (event) => {
+    this.setState({carInput: event.target.value})
   }
 
-  formSubmit = (event) => {
+  updateHouseInput = (event) => {
+    this.setState({houseInput: event.target.value})
+  }
+
+  formSubmitHouse = (event) => {
+    event.preventDefault()
+    console.log("**THIS IS STATE**", event.target)
+    this.setState({
+      houses: [...this.state.houses, this.state.houseInput],
+      houseInput: '',
+    })
+  }
+
+   formSubmitCars = (event) => {
     event.preventDefault()
     // console.log("**THIS IS STATE", this.state.items)
     this.setState({
-      items : [...this.state.cars, this.state.houses, this.state.input],
-      input: ''
+      cars : [...this.state.cars, this.state.carInput],
+      carInput: ''
     })
   }
 
@@ -37,16 +51,16 @@ class App extends Component {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1>Hello World</h1>
-        <form onSubmit={this.formSubmit}>
-          <input value={this.state.items} onChange={this.inputUpdate}/>
+        <form onSubmit={this.formSubmitHouse}>
+          <input id="houseInput" value={this.state.houseInput} onChange={this.updateHouseInput}/>
           <button>List Houses</button>
         </form>
-        <form onSubmit={this.formSubmit}>
-          <input value={this.state.items} onChange={this.inputUpdate}/>
+        <form onSubmit={this.formSubmitCars}>
+          <input id="carInput" value={this.state.carInput} onChange={this.updateCarInput}/>
           <button>List Cars</button>
         </form>
-        <FirstComponent items={this.state.cars} />
-        <FirstComponent items={this.state.houses} />
+        <FirstComponent items={this.state.cars} poop="List of Cars" />
+        <FirstComponent items={this.state.houses} poop="List of Houses" />
       </header>
     </div>
   );
